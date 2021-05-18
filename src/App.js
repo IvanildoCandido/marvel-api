@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
+import Card from "./components/Card";
 import getComics from "./utils/marvelAPI";
+import styled from "styled-components";
+import "./global.css";
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+`;
 
 function App() {
   const [comics, setComics] = useState([]);
@@ -17,17 +26,15 @@ function App() {
       {loading ? (
         <h1>Carregando...</h1>
       ) : (
-        <h1>
+        <Container>
           {comics.map((comic) => (
-            <div>
-              <h5 key={comic.id}>{comic.title}</h5>
-              <img
-                src={comic.thumbnail.path + "." + comic.thumbnail.extension}
-                alt="tumbnail"
-              />
-            </div>
+            <Card
+              key={comic.id}
+              title={comic.title}
+              thumbnail={comic.thumbnail}
+            />
           ))}
-        </h1>
+        </Container>
       )}
     </div>
   );

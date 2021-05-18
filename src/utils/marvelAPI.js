@@ -16,3 +16,12 @@ const getComics = () => {
 };
 
 export default getComics;
+
+
+// <div>
+//               <h5 key={comic.id}>{comic.title}</h5>
+//               <img
+//                 src={comic.thumbnail.path + "." + comic.thumbnail.extension}
+//                 alt="tumbnail"
+//               />
+//             </div>
