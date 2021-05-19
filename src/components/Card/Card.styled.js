@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -11,29 +10,17 @@ const Container = styled.div`
   margin-top: 10px;
   border: 1px solid #eee;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 `;
-const Title = styled.span`
-  margin: 10px 5px;
+export const Title = styled.span`
+  margin: 13px 5px;
   font-size: 18px;
   font-weight: 600;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 `;
-const Folder = styled.img`
+export const Folder = styled.img`
   width: 100%;
   height: 300px;
 `;
-
-const Card = ({ title, thumbnail }) => {
-  const { path, extension } = thumbnail;
-  const src = `${path}.${extension}`;
-  return (
-    <Container>
-      <Title>{title}</Title>
-      <Folder src={src} />
-    </Container>
-  );
-};
-
-export default Card;

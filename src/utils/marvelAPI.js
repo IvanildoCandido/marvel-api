@@ -2,11 +2,10 @@ const md5 = require("md5");
 const fetch = require("node-fetch");
 const timestamp = Math.floor(Date.now() / 1000);
 const publicKey = "27e31479f5d88e0538d72a4dbb03300b";
-const privateKey = "9a8b93a6feb42c60f88f3f4e82408e9642e7bfce";
-const hash = md5(timestamp + privateKey + publicKey);
+const hash = md5(timestamp + process.env.REACT_APP_MARVEL_KEY + publicKey);
 const baseURL = "https://gateway.marvel.com:443/v1/public/comics?ts=";
 
-const getComics = () => {
+export const getComics = () => {
   const result = fetch(
     `${baseURL + timestamp}&apikey=${publicKey}&hash=${hash}`,
   )
@@ -15,13 +14,11 @@ const getComics = () => {
   return result;
 };
 
-export default getComics;
-
-
-// <div>
-//               <h5 key={comic.id}>{comic.title}</h5>
-//               <img
-//                 src={comic.thumbnail.path + "." + comic.thumbnail.extension}
-//                 alt="tumbnail"
-//               />
-//             </div>
+export const getCharacters = (URL) => {
+  const result = fetch(
+    `${URL + "?ts=" + timestamp}&apikey=${publicKey}&hash=${hash}`,
+  )
+    .then((response) => response.json())
+    .then((result) => result.data.results);
+  return result;
+};
