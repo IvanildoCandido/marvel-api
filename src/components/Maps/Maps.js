@@ -16,19 +16,19 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
-import { ContainerSearch } from "./Maps.styled";
+import { ContainerMap, ContainerSearch } from "./Maps.styled";
 import { getAddress } from "../../utils/marvelAPI";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "90vw",
-  height: "90vh",
+  height: "70vh",
 };
 const center = {
   lat: -7.2246743,
   lng: -35.8771292,
 };
 
-const Maps = () => {
+const Maps = ({ setStreet }) => {
   const [markers, setMarkers] = useState("");
   const [address, setAddress] = useState("");
   const { isLoaded, loadError } = useLoadScript({
@@ -47,7 +47,7 @@ const Maps = () => {
   if (!isLoaded) return "Carregando...";
 
   return (
-    <div>
+    <ContainerMap>
       <Search panTo={panTo} setMarkers={setMarkers} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -59,9 +59,10 @@ const Maps = () => {
             lat: e.latLng.lat(),
             lng: e.latLng.lng(),
           }));
-          getAddress(e.latLng.lat(), e.latLng.lng()).then((response) =>
-            setAddress(response),
-          );
+          getAddress(e.latLng.lat(), e.latLng.lng()).then((response) => {
+            setAddress(response);
+            setStreet(response);
+          });
         }}
       >
         {<Marker position={{ lat: markers.lat, lng: markers.lng }} />}
@@ -77,7 +78,7 @@ const Maps = () => {
           </InfoWindow>
         )}
       </GoogleMap>
-    </div>
+    </ContainerMap>
   );
 };
 function Search({ panTo, setMarkers }) {

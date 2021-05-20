@@ -5,12 +5,23 @@ import styled from "styled-components";
 import "./global.css";
 import Modal from "./components/Modal/Modal";
 import ComicsDetails from "./components/ComicsDetails/ComicsDetails";
-import Maps from "./components/Maps/Maps";
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  display: flex;
+  justify-content: center;  
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+`;
+const PageTitle = styled.div`
+  font-size: 50px;
+  color: white;
+  font-weight: bold;
+  padding: 15px;
+  margin: 5px auto;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
 `;
 
 function App() {
@@ -35,6 +46,7 @@ function App() {
 
   return (
     <div>
+      <PageTitle>MARVEL COMICS</PageTitle>
       {status && (
         <Modal status={status} setStatus={setStatus}>
           <ComicsDetails data={comic} />

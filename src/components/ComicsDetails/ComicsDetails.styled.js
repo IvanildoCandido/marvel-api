@@ -2,8 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   .title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
+  }
+  strong {
+    color: blue;
+    font-size: 15px;
   }
   display: flex;
   gap: 15px;
@@ -28,11 +32,25 @@ export const Cover = styled.img`
   height: 400px;
 `;
 export const Left = styled.div`
-  width: 50%;
+  width: 100%;
 `;
 export const Right = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 50%;
+  width: 100%;
+`;
+export const GetMagazine = styled.button`
+  margin-top: 20px;
+  outline: none;
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
