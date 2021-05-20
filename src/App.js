@@ -35,7 +35,6 @@ function App() {
 
   return (
     <div>
-      <Maps />
       {status && (
         <Modal status={status} setStatus={setStatus}>
           <ComicsDetails data={comic} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -12,11 +12,12 @@ import usePlacesAutocomplete, {
 import {
   Combobox,
   ComboboxInput,
-  ComboboxPopover,  
+  ComboboxPopover,
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import { ContainerSearch } from "./Maps.styled";
+import { getAddress } from "../../utils/marvelAPI";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "90vw",
@@ -28,6 +29,8 @@ const center = {
 };
 
 const Maps = () => {
+  const [markers, setMarkers] = useState("");
+  const [address, setAddress] = useState("");
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -42,19 +45,42 @@ const Maps = () => {
   }, []);
   if (loadError) return "Erro ao carregar o mapa!";
   if (!isLoaded) return "Carregando...";
+
   return (
     <div>
-      <Search panTo={panTo} />
+      <Search panTo={panTo} setMarkers={setMarkers} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
         center={center}
         onLoad={onMapLoad}
-      ></GoogleMap>
+        onClick={(e) => {
+          setMarkers(() => ({
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng(),
+          }));
+          getAddress(e.latLng.lat(), e.latLng.lng()).then((response) =>
+            setAddress(response),
+          );
+        }}
+      >
+        {<Marker position={{ lat: markers.lat, lng: markers.lng }} />}
+        {address !== "" && (
+          <InfoWindow
+            position={{ lat: markers.lat, lng: markers.lng }}
+            onCloseClick={() => setAddress("")}
+          >
+            <div>
+              <h2>Endereço de Envio:</h2>
+              <p>{address}</p>
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
     </div>
   );
 };
-function Search({ panTo }) {
+function Search({ panTo, setMarkers }) {
   const {
     ready,
     value,
@@ -77,6 +103,7 @@ function Search({ panTo }) {
             const results = await getGeocode({ address });
             const { lat, lng } = await getLatLng(results[0]);
             panTo({ lat, lng });
+            setMarkers({ lat, lng });
           } catch (error) {
             console.log("Erro:", error);
           }
